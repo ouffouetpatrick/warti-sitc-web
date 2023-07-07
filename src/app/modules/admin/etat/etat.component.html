@@ -1,0 +1,255 @@
+<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+ <!-- Header -->
+ <div class="relative flex flex-0 items-start justify-between py-6 px-6 lg:items-center border-b">
+      
+    <div class="text-4xl font-extrabold tracking-tight">Rapport de présence</div>
+    
+    <div class="flex gap-1 shrink-0 items-center mt-6 sm:mt-0">
+
+        <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
+        <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:search'"></mat-icon>
+        <input matInput [autocomplete]="'off'" [placeholder]="'Rechercher'">
+        </mat-form-field>
+    
+        <button 
+            title="Actualiser" 
+            mat-flat-button 
+            [color]="'accent'">
+            <mat-icon [svgIcon]="'heroicons_outline:refresh'"></mat-icon>
+            <span class="ml-2 mr-1">Actualiser</span>
+        </button>
+
+        <button  
+            mat-flat-button
+            [color]="'primary'"
+            >
+            <mat-icon [svgIcon]="'heroicons_outline:folder-download'"></mat-icon>
+            <span class="ml-2 mr-1">Exporter</span>
+        </button>
+
+    </div>
+</div>
+
+     <!-- Main -->
+     <div class="flex flex-auto overflow-hidden">
+        <div class="flex flex-col flex-auto sm:mb-0 overflow-hidden sm:overflow-y-auto rounded-lg">
+  
+            <div class="flex-auto p-6 sm:p-10">
+
+                <!-- CONTENT GOES HERE -->
+                <mat-tab-group  class="sm:px-2 mt-2" [animationDuration]="'0'">
+                 
+
+                  <mat-tab>
+                    <ng-template mat-tab-label>
+                       Tous
+                   </ng-template> 
+                  
+                    <table mat-table  [dataSource]="dataSourceGeneral" matSort class="w-full mb-16"> 
+                     <ng-container matColumnDef="nom">
+                       <th class="text-white" mat-header-cell *matHeaderCellDef > 
+                           Nom
+                       </th>
+                       <td mat-cell *matCellDef="let element">{{element.utilisateur.nom}}</td>
+                     </ng-container>
+           
+                     <ng-container matColumnDef="prenom">
+                       <th class="hidden sm:table-cell text-white" mat-header-cell *matHeaderCellDef> 
+                           Prénom
+                       </th>
+                       <td class="hidden sm:table-cell" mat-cell *matCellDef="let element"> {{element.utilisateur.prenom}}</td>
+                     </ng-container>
+           
+                     
+                     <ng-container matColumnDef="datecreation">
+                       <th class="hidden sm:table-cell text-white" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                           Date
+                       </th>
+                       <td class="hidden sm:table-cell" mat-cell *matCellDef="let element">{{element.dateCreation}}</td>
+                     </ng-container>
+           
+                    
+                     <ng-container matColumnDef="heure_arrive">
+                       <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                           Heure d'arrivée 
+                       </th>
+                       <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.heure_arrive}}</td>
+                     </ng-container>
+   
+                     <ng-container matColumnDef="heure_deperd">
+                       <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                         Heure de départ
+                       </th>
+                       <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.heure_depart}}</td>
+                     </ng-container>
+
+
+                     <ng-container matColumnDef="localisation">
+                      <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                        Loclisation
+                      </th>
+                      <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.localisation}}</td>
+                    </ng-container>
+   
+   
+                     <ng-container matColumnDef="statut">
+                       <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                           Statut 
+                       </th>
+                       <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.statut.libelle}} </td>
+                     </ng-container>
+
+
+                     <tr class="z-10 sticky top-0 gap-4 py-4 px-6 md:px-8 text-md font-semibold text-white bg-accent dark:bg-black dark:bg-opacity-5"
+                 mat-header-row *matHeaderRowDef="displayedColumnsGeneral"></tr>
+               <tr mat-row *matRowDef="let row; columns: displayedColumnsGeneral;"></tr>
+             
+                     </table>  
+               </mat-tab>
+               
+
+
+
+                    <mat-tab>
+                         <ng-template mat-tab-label>
+                            Présence
+                        </ng-template> 
+                       
+                         <table mat-table  [dataSource]="dataSourcePresence" matSort class="w-full mb-16"> 
+                          <ng-container matColumnDef="nom">
+                            <th class="text-white" mat-header-cell *matHeaderCellDef > 
+                                Nom
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{element.utilisateur.nom}}</td>
+                          </ng-container>
+                
+                          <ng-container matColumnDef="prenom">
+                            <th class="hidden sm:table-cell text-white" mat-header-cell *matHeaderCellDef> 
+                                Prénom
+                            </th>
+                            <td class="hidden sm:table-cell" mat-cell *matCellDef="let element"> {{element.utilisateur.prenom}}</td>
+                          </ng-container>
+                
+                          
+                          <ng-container matColumnDef="datecreation">
+                            <th class="hidden sm:table-cell text-white" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                                Date
+                            </th>
+                            <td class="hidden sm:table-cell" mat-cell *matCellDef="let element">{{element.dateCreation}}</td>
+                          </ng-container>
+                
+                         
+                          <ng-container matColumnDef="heure_arrive">
+                            <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                                Heure d'arrivée 
+                            </th>
+                            <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.heure_arrive}}</td>
+                          </ng-container>
+        
+                          <ng-container matColumnDef="heure_deperd">
+                            <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                              Heure de départ
+                            </th>
+                            <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.heure_depart}}</td>
+                          </ng-container>
+ 
+ 
+                          <ng-container matColumnDef="localisation">
+                           <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                             Loclisation
+                           </th>
+                           <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.localisation}}</td>
+                         </ng-container>
+        
+        
+                          <ng-container matColumnDef="statut">
+                            <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                                Statut 
+                            </th>
+                            <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.statut.libelle}} </td>
+                          </ng-container>
+
+
+                          <tr class="z-10 sticky top-0 gap-4 py-4 px-6 md:px-8 text-md font-semibold text-white bg-accent dark:bg-black dark:bg-opacity-5"
+                      mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  
+                          </table>  
+                    </mat-tab>
+                    
+                    
+
+                    <mat-tab>
+                      <ng-template mat-tab-label>
+                         Retard
+                     </ng-template> 
+                    
+                      <table mat-table  [dataSource]="dataSourceRetard" matSort class="w-full mb-16"> 
+                       
+                         <ng-container matColumnDef="nom">
+                           <th class="text-white" mat-header-cell *matHeaderCellDef > 
+                               Nom
+                           </th>
+                           <td mat-cell *matCellDef="let element">{{element.utilisateur.nom}}</td>
+                         </ng-container>
+               
+                         <ng-container matColumnDef="prenom">
+                           <th class="hidden sm:table-cell text-white" mat-header-cell *matHeaderCellDef> 
+                               Prénom
+                           </th>
+                           <td class="hidden sm:table-cell" mat-cell *matCellDef="let element"> {{element.utilisateur.prenom}}</td>
+                         </ng-container>
+               
+                         
+                         <ng-container matColumnDef="datecreation">
+                           <th class="hidden sm:table-cell text-white" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                               Date
+                           </th>
+                           <td class="hidden sm:table-cell" mat-cell *matCellDef="let element">{{element.dateCreation}}</td>
+                         </ng-container>
+               
+                        
+                         <ng-container matColumnDef="heure_arrive">
+                           <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                               Heure d'arrivée 
+                           </th>
+                           <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.heure_arrive}}</td>
+                         </ng-container>
+       
+                         <ng-container matColumnDef="heure_deperd">
+                           <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                             Heure de départ
+                           </th>
+                           <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.heure_depart}}</td>
+                         </ng-container>
+
+
+                         <ng-container matColumnDef="localisation">
+                          <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                            Loclisation
+                          </th>
+                          <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.localisation}}</td>
+                        </ng-container>
+       
+       
+                         <ng-container matColumnDef="statut">
+                           <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                               Statut 
+                           </th>
+                           <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.statut.libelle}} </td>
+                         </ng-container>
+       
+                       <tr class="z-10 sticky top-0 gap-4 py-4 px-6 md:px-8 text-md font-semibold text-white bg-accent dark:bg-black dark:bg-opacity-5"
+                   mat-header-row *matHeaderRowDef="displayedColumnsRetard"></tr>
+                 <tr mat-row *matRowDef="let row; columns: displayedColumnsRetard;"></tr>
+               
+                       </table>  
+                    </mat-tab> 
+
+                  </mat-tab-group> 
+            </div>
+        </div>
+        
+    </div>
+
+</div>

@@ -1,0 +1,349 @@
+<div class="flex flex-col flex-auto min-w-0">  
+<!-- Main -->
+    <div class="flex flex-auto overflow-hidden">
+        <div class="flex flex-col flex-auto sm:mb-0 overflow-hidden sm:overflow-y-auto rounded-lg">
+            <div class="flex-auto p-0 sm:p-1">
+                <mat-tab-group class="sm:px-1 mt-0" [animationDuration]="'0'">
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            Employés
+                        </ng-template>
+                                  
+                        <div class="grid grid-cols-1 sm:grid-cols-1 gap-2 w-full min-w-0">
+                                    <!-- Section title -->
+                                    <div class="grid grid-cols-6 sm:grid-cols-6 lg:grid-cols-6 gap-2 w-full mt-2">
+                                        <!-- Course -->
+                                        <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-2 w-full mt-0 md:mt-0">
+                                            <!-- Course -->
+        
+                                            <div class="flex flex-col h-61 shadow rounded-2xl overflow-hidden bg-card">
+                                                <!-- Course launch button -->
+                                                <div class="px-6 py-4 text-center bg-gray-300 dark:bg-transparent">
+        
+                                                    <span class="inline-flex items-center">
+                                                        <div class="text-lg font-medium  dark:text-gren-500">
+                                                            Employé
+                                                        </div>
+        
+                                                    </span>
+        
+                                                </div>
+                                                <div class="flex flex-col p-4">
+                                                    <div class="flex flex-col items-center mt-1">
+        
+                                                        <div class="flex flex-col items-center mt-1">
+                                                            <div
+                                                                class="text-6xl items-center sm:text-6xl font-bold text-green-500 tracking-tight leading-none ">
+                                                                {{NombreUser}}
+                                                            </div>
+                                                            <mat-icon
+                                                            class="text-4xl items-center h-full w-10 sm:text-4xl font-bold text-green-500 tracking-tight leading-none "
+                                                             svgIcon="heroicons_solid:user-group">
+                                                            </mat-icon>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                
+        
+                                        </div>
+        
+                                        <!-- Gender -->
+                                        <div class="col-span-5">
+                                            <div class="grid grid-cols-2 h-48 sm:grid-cols-2 lg:grid-cols-2 w-full mt-0 md:mt-0">
+                                        <!-- Graphe selon le genre -->
+                                        <div class="flex flex-col   bg-card shadow rounded-md overflow-hidden p-2 mr-2">
+                                            <div class="flex items-start justify-between">
+                                                <div class="text-lg font-medium tracking-tight leading-6 truncate">Repartition des employés selon le genre
+                                                </div> 
+                                            </div>
+                                            <div class="flex flex-col items-center p-4 flex-auto h-44">
+                                            <google-chart #chart [type]="typeVueSexe"
+                                                [data]="grapheSexe.data"
+                                                [columns]="grapheSexe.columnNames"
+                                                [options]="grapheSexe.options">
+                                            </google-chart>
+                                            </div>
+
+                                            </div>
+          
+                                <!-- Graphe d'assiduité-->
+                                <div class="flex flex-col  bg-card shadow rounded-md overflow-hidden">
+                                     <div class="flex flex-col flex-auto overflow-hidden p-2 w-full">
+                                        <div class="flex items-start justify-between">
+                                            <div class="text-lg font-medium tracking-tight leading-6 truncate">Top 5 des retardataires
+                                            </div> 
+                                        </div>
+            
+                                        <div class="flex flex-col flex-auto p-4 h-40 w-full">
+                                            <google-chart #chart [type]="typeVueAssidute"
+                                            class="grid-cols-1 h-96 w-full flex flex-col flex-auto"
+                                                [data]="grapheAssidute.data"
+                                                [columns]="grapheAssidute.columnNames"
+                                                [options]="grapheAssidute.options">
+                                            </google-chart>
+                                        </div>
+                                    </div>
+                                    </div>
+                                            </div>
+                                        </div>        
+                                    </div>
+                        
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <!-- Liste des 3 retardataires -->
+                                    <div class="flex flex-col h-60 flex-auto p-3 bg-card shadow rounded-2xl overflow-hidden">
+                                        <div class="flex flex-col sm:flex-row items-start justify-between">
+                                            <div class="text-lg font-medium tracking-tight leading-6 truncate">Retard reparti par genre</div>
+                                        </div>
+                                        <div class="flex flex-col flex-auto w-full h-30">
+                                            <google-chart #chart [type]="typeRetardSexe"
+                                            class="grid-cols-1 w-full flex flex-col flex-auto"
+                                                    
+                                            [data]="graphRetardSexe.data"
+                                            [columns]="graphRetardSexe.columnNames"
+                                            [options]="graphRetardSexe.options">
+                                            </google-chart>
+                                            </div>
+            
+                                        </div>                            
+                                        <!-- Liste des 3 les plus assidus   -->
+            
+                                        <div class=" flex flex-col h-60 flex-auto p-3 bg-card shadow rounded-2xl overflow-hidden">
+                                        <div class="flex items-start justify-between">
+                                            <div class="text-lg font-medium tracking-tight leading-6 truncate">Permission demandée reparti par genre
+                                            </div>
+                                        </div>
+            
+                                        <div class="flex flex-col flex-auto w-full h-30">
+                                            <google-chart #chart [type]="typePermissionSexe"
+                                            class="grid-cols-1 w-full flex flex-col flex-auto"         
+                                            [data]="graphPermissionSexe.data"
+                                            [columns]="graphPermissionSexe.columnNames"
+                                            [options]="graphPermissionSexe.options">
+                                            </google-chart>
+                                            </div>
+                                       
+                                        </div>
+                                    </div>
+                                </div>
+                    </mat-tab>
+
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            Indicateurs du jour
+                        </ng-template>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full min-w-0 mb-2">
+                            <!-- Période d'assiduité -->
+                            <div class="items-center flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                            <div class="flex items-start justify-between">
+                                <div class="text-lg font-medium tracking-tight leading-6 truncate">Nombre d'employé</div>
+                            </div>
+                            <div class="flex flex-col items-center mt-2">
+                                <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-green-500">
+                                    {{NombreUser}}
+                                </div>
+                            </div>
+                            </div>
+                            <!-- Nombre total de présence -->
+                            <div class="flex items-center flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                            <div class="flex items-start justify-between">
+                            <div class="text-lg font-medium tracking-tight leading-6 truncate">Non permissionnaire</div>
+                            </div>
+                            <div class="flex flex-col items-center mt-2">
+                            <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-blue-500">
+                                {{NombreUser - NombrePermission}}
+                            </div>
+                            </div>
+                            </div>
+
+                            <!-- Nombre total de absence -->
+                            <div class="flex items-center flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                            <div class="flex items-center justify-between">
+                            <div class="text-lg font-medium tracking-tight leading-6 truncate">Permissionnaire</div>
+                            </div>
+                            <div class="flex flex-col items-center mt-2">
+                            <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-red-500">{{NombrePermission}}</div>
+                            </div>
+                            </div>
+                          
+                            <!-- Graphe selon le genre -->
+                            <!-- <div class="flex flex-col flex-auto p-6 h-40 bg-card shadow rounded-2xl overflow-hidden">
+                            <div class="flex items-start justify-between">
+                                <div class="text-lg font-medium tracking-tight leading-6 truncate">Repartition par  genre
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col items-center mt-2 flex-auto h-44">
+                                <google-chart #chart [type]="typeVueSexe"
+                                    [data]="grapheSexe.data"
+                                    [columns]="grapheSexe.columnNames"
+                                    [options]="grapheSexe.options">
+                                </google-chart>
+                            </div>
+
+                            </div> -->
+
+                        </div>
+                        <div class="grid grid-cols-3 gap-2">
+                        <div class="flex flex-col h-61 shadow rounded-2xl overflow-hidden bg-card">
+                            <!-- Course launch button -->
+                            <div class="px-6 py-4 text-center bg-gray-300 dark:bg-transparent">
+
+                                <span class="inline-flex items-center">
+                                    <div class="text-lg font-medium  dark:text-gren-500">
+                                        Données du jours
+                                    </div>
+
+                                </span>
+
+                            </div>
+                            <div class="flex flex-col p-4 ">
+                                <div class="flex flex-col items-center mt-1">
+
+                                    <div class="flex flex-col items-center mt-1">
+                                        <div
+                                            class="text-4xl sm:text-4xl font-bold text-blue-500 tracking-tight leading-none ">
+                                            {{NombreUser - NombrePermission}}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Course time -->
+                                <div class="flex items-baseline justify-between w-full mt-2 text-secondary">
+                                    <div class="text-md font-medium truncate">Ponctuel:</div>
+                                    <div class="ml-1.5 text-lg font-semibold">
+                                        {{dataTypeAssidute1[0]?.nombre}} 
+                                    </div>
+                                </div>
+                                <div class="flex items-baseline justify-between w-full mt-3 text-secondary">
+                                    <div class="text-md font-medium truncate">Retards:</div>
+                                    <div class="ml-1.5 text-lg font-semibold">
+                                        {{dataTypeAssidute1[1]?.nombre}}
+                                    </div>
+                                </div>
+                                <div class="flex items-baseline justify-between w-full mt-3 text-secondary">
+                                    <div class="text-md font-medium truncate">Absences:</div>
+                                    <div class="ml-1.5 text-lg font-semibold">
+                                        <!-- 1 -->
+                                        {{dataTypeAssidute1[2]?.nombre}}
+                                        <!-- {{((NombreUser - NombrePermission)-((dataTypeAssidute1[0].nombre) + (dataTypeAssidute1[1].nombre)))}} -->
+                                    </div>
+                                </div>
+                                <div class="flex items-baseline justify-between w-full mt-3 text-secondary">
+                                    <div class="text-md font-medium truncate">Absences Justifiées:</div>
+                                    <div class="ml-1.5 text-lg font-semibold">{{NombrePermission}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-span-2"> 
+                          <!-- Graphe Day Info -->
+                            <div class="flex flex-col flex-auto p-6  bg-card shadow rounded-2xl overflow-hidden">
+                            <div class="flex items-start justify-between">
+                                <div class="text-lg font-medium tracking-tight leading-6 truncate">Repartition des données du jours
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col items-center mt-2 flex-auto h-52">
+                                <google-chart #chart [type]="typeTypeAssidute"
+                                    [data]="grapheTypeAssidute.data"
+                                    [columns]="grapheTypeAssidute.columnNames"
+                                    [options]="grapheTypeAssidute.options">
+                                </google-chart>
+                            </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    </mat-tab>
+                
+                    <mat-tab>
+                        <ng-template mat-tab-label >
+                            Statut et type de permission
+                        </ng-template>
+                        <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 gap-2 mt-4 w-full min-w-0">
+
+                            <!-- Taux de retard par service -->
+
+                        <div class="flex flex-col flex-auto p-4 bg-card shadow rounded-md overflow-hidden h-full w-full">
+                            <div class="flex items-start justify-between">
+                            <div class="text-lg font-medium tracking-tight leading-6 truncate">Moyenne des demandes de permission selon statut
+                            </div>
+                            </div>
+
+                            <div>
+                                <google-chart #chart [type]="typePermissionStatut"
+                                class="p-8 mt-6"
+                                    [data]="graphePermissionStatut.data"
+                                    [columns]="graphePermissionStatut.columnNames"
+                                    [options]="graphePermissionStatut.options">
+                                </google-chart>
+                            </div>
+                            <!-- <div class="flex flex-col flex-auto p-6 mb-12 h-40">
+                            <google-chart #chart [type]="typeVueRetardService"
+                            [data]="grapheRetardService.data"
+                            [columns]="grapheRetardService.columnNames"
+                            [options]="grapheRetardService.options">
+                            </google-chart>
+                            </div> -->
+                            <!-- <div class="mt-8">
+
+                            </div> -->
+                            </div>
+
+                        <!-- Liste des types de permission les plus utilisé -->  
+                        <div class=" flex flex-col flex-auto p-4 bg-card shadow rounded-md overflow-hidden h-full w-full">
+                        <div class="flex items-start justify-between">
+                            <div class="text-lg font-medium tracking-tight leading-6 truncate">Les 4 types de permissions les plus demandés
+                            </div>
+                        </div>
+
+                        <div >
+                            <google-chart #chart [type]="typeTypePermission"
+                            class="p-8 mt-6"
+                            [data]="graphTypePermission.data"
+                            [columns]="graphTypePermission.columnNames"
+                            [options]="graphTypePermission.options">
+                            </google-chart>
+                        </div>                      
+                        </div>
+
+                        
+                        </div>
+                        
+                    </mat-tab>
+                      
+                    <mat-tab label="Taux annuel">
+                        <ng-template matTabContent>
+                            <!-- Fréquence d'assiduité et des permission selon la période -->
+                            <div class="flex flex-col bg-card shadow rounded-md overflow-hidden mb-2">
+                            <!-- Course launch button -->
+                            <div class="flex flex-col flex-auto  rounded-2xl overflow-hidden">
+                            <div class="flex flex-col flex-auto overflow-hidden mr-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="text-lg font-medium tracking-tight p-1 leading-6 truncate">
+                                    </div>
+                                </div>
+                                <div class="grid-cols-1 h-70 w-full flex flex-col flex-auto">
+                                    <google-chart #chart [type]="type" 
+                                    class="grid-cols-1 h-70 w-full flex flex-col flex-auto"
+                                        [data]="graphCourbe.data"
+                                        [columns]="graphCourbe.columnNames"
+                                        [options]="graphCourbe.options">
+                                    </google-chart>
+                                </div>
+                            </div>
+
+                            </div>
+                            </div>
+
+                           
+                        </ng-template>
+                    </mat-tab>  
+                    
+                </mat-tab-group> 
+            </div>
+            
+        </div>
+    </div>
+
+</div>

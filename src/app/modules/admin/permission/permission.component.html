@@ -1,0 +1,386 @@
+<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+
+    <!-- Header -->
+    <div class="relative flex flex-0 items-start justify-between py-6 px-6 lg:items-center border-b">
+      
+        <div class="text-4xl font-extrabold tracking-tight">Liste des permissions</div>
+        
+        <div class="flex gap-1 shrink-0 items-center mt-6 sm:mt-0">
+
+            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
+            <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:search'"></mat-icon>
+            <input (keyup)="applyFilter($event)" matInput [autocomplete]="'off'" [placeholder]="'Rechercher'">
+            </mat-form-field>
+        
+
+            <!-- Actualiser en Attente -->
+            <div *ngIf="showPagination == 0">
+              <button *ngIf="user.utilisateurProfil[0].profil?.id == 1 || user.utilisateurProfil[0].profil?.id == 2"
+                (click)="getPermissionAttenteAll()"
+                title="Actualiser" 
+                mat-flat-button 
+                [color]="'accent'">
+                <mat-icon [svgIcon]="'heroicons_outline:refresh'"></mat-icon>
+                <span class="ml-2 mr-1">Actualiser</span>
+              </button>
+              <button *ngIf="user.utilisateurProfil[0].profil?.id > 2"
+                (click)="getPermissionAttente()"
+                title="Actualiser" 
+                mat-flat-button 
+                [color]="'accent'">
+                <mat-icon [svgIcon]="'heroicons_outline:refresh'"></mat-icon>
+                <span class="ml-2 mr-1">Actualiser</span>
+              </button>
+            </div>
+
+
+           <!-- Actualiser Valider  -->
+           <div *ngIf="showPagination == 1">
+            <button *ngIf="user.utilisateurProfil[0].profil?.id == 1 || user.utilisateurProfil[0].profil?.id == 2"
+                (click)="getPermissionAttenteAll()"
+                title="Actualiser" 
+                mat-flat-button 
+                [color]="'accent'">
+                <mat-icon [svgIcon]="'heroicons_outline:refresh'"></mat-icon>
+                <span class="ml-2 mr-1">Actualiser</span>
+              </button>
+              <button *ngIf="user.utilisateurProfil[0].profil?.id > 2"
+                (click)="getPermissionAttente()"
+                title="Actualiser" 
+                mat-flat-button 
+                [color]="'accent'">
+                <mat-icon [svgIcon]="'heroicons_outline:refresh'"></mat-icon>
+                <span class="ml-2 mr-1">Actualiser</span>
+              </button>
+          </div>
+
+
+          <!-- Actualiser Rejeter -->
+
+          <div *ngIf="showPagination == 2">
+            <button *ngIf="user.utilisateurProfil[0].profil?.id == 1 || user.utilisateurProfil[0].profil?.id == 2"
+                (click)="getPermissionAttenteAll()"
+                title="Actualiser" 
+                mat-flat-button 
+                [color]="'accent'">
+                <mat-icon [svgIcon]="'heroicons_outline:refresh'"></mat-icon>
+                <span class="ml-2 mr-1">Actualiser</span>
+              </button>
+              <button *ngIf="user.utilisateurProfil[0].profil?.id > 2"
+                (click)="getPermissionAttente()"
+                title="Actualiser" 
+                mat-flat-button 
+                [color]="'accent'">
+                <mat-icon [svgIcon]="'heroicons_outline:refresh'"></mat-icon>
+                <span class="ml-2 mr-1">Actualiser</span>
+              </button>
+          </div>
+
+          <button *ngIf="user.utilisateurProfil[0].profil?.id > 2" 
+              mat-flat-button
+              [color]="'primary'"
+              (click)="openDialogPermissionForm(null)">
+              <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+              <span class="ml-2 mr-1">Ajouter</span>
+          </button>
+
+        </div>
+    </div>
+    
+    <!-- Main -->
+    <div class="flex flex-auto overflow-hidden">
+      <div class="flex flex-col flex-auto sm:mb-0 overflow-hidden sm:overflow-y-auto rounded-lg">
+
+        <mat-tab-group (selectedTabChange)="onTabsChange($event)" class="sm:px-2 mt-2" [animationDuration]="'0'">
+            <mat-tab>
+                <ng-template mat-tab-label>
+                  En attente
+                  <span [matBadge]="1" class="ml-5" matBadgeOverlap="large"></span>
+                </ng-template>
+                <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+
+                  <table mat-table  [dataSource]="dataSourceAttente" matSort class="w-full mb-16">
+                    
+                    <ng-container matColumnDef="typePermission">
+                      <th class="text-white" mat-header-cell *matHeaderCellDef > 
+                          Type Permission
+                      </th>
+                      <td mat-cell *matCellDef="let element">{{element.typePermission.libelle}}</td>
+                    </ng-container>
+          
+                    <ng-container matColumnDef="utilisateur">
+                      <th class="hidden sm:table-cell text-white" mat-header-cell *matHeaderCellDef> 
+                          Demandeur
+                      </th>
+                      <td class="hidden sm:table-cell" mat-cell *matCellDef="let element"> {{element.utilisateur.nom}}</td>
+                    </ng-container>
+          
+                    
+                    <ng-container matColumnDef="detail">
+                      <th class="hidden sm:table-cell text-white" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                          Detail
+                      </th>
+                      <td class="hidden sm:table-cell" mat-cell *matCellDef="let element">{{element.detail}}</td>
+                    </ng-container>
+          
+                   
+                    <ng-container matColumnDef="dateDebut">
+                      <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                          Date debut 
+                      </th>
+                      <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.date_debut | date:'dd/MM/yyyy'}}</td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="dateFin">
+                      <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                        Date fin
+                      </th>
+                      <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.date_fin | date:' dd/MM/yyyy '}} </td>
+                    </ng-container>
+  
+  
+                    <ng-container matColumnDef="statut">
+                      <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                          Statut 
+                      </th>
+                      <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.statutPermission[0].statut.libelle}}  </td>
+                    </ng-container>
+  
+                 
+  
+                    <ng-container matColumnDef="datecreation">
+                      <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                          Date creation
+                      </th>
+                      <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.dateCreation | date:'dd/MM/yyyy'}}   </td>
+                    </ng-container>
+              
+                    
+                    <ng-container matColumnDef="Action">
+                      <th class="text-white" mat-header-cell *matHeaderCellDef> 
+                        Action 
+                      </th>
+                      <td mat-cell *matCellDef="let element">
+                        <div class="flex items-center gap-2">
+                          <button
+                          
+                          class="-ml-4"
+                          mat-button
+                          (click)="openDialogPermissionForm(element)"
+                          >
+                          <mat-icon
+                          class="text-gray-400 icon-size-5"
+                          [svgIcon]="'feather:pen-tool'"
+                          >
+                      </mat-icon>
+                      </button>
+
+                      <div *ngIf="this.user.utilisateurProfil[0].profil?.id == 2 || this.user.utilisateurProfil[0].profil?.id == 1 ">
+                        <button
+                          class="-ml-4"
+                          mat-button
+                          (click)="ValiderPermission(element)">
+                          <mat-icon
+                          class="text-green-400 icon-size-5"
+                          [svgIcon]="'heroicons_solid:check'">
+                          </mat-icon>
+                        </button>
+                        <button
+                            class="-ml-4"
+                            mat-button
+                            [color]="'warn'"
+                            (click)="openDialogRejeterForm(element)">
+                            <mat-icon
+                            class="text-red-400 icon-size-5"
+                            [svgIcon]="'heroicons_solid:x'">
+                            </mat-icon>
+                        </button>
+                      </div>
+                     
+                 
+                        </div>
+                      </td>
+                    </ng-container>
+          
+                    <tr class="z-10 sticky top-0 gap-4 py-4 px-6 md:px-8 text-md font-semibold text-white bg-accent dark:bg-black dark:bg-opacity-5"
+                      mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          
+                  </table>
+                </div>
+              </mat-tab>
+          
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Validée
+                </ng-template>
+               
+                <table mat-table  [dataSource]="dataSourceValide" matSort class="w-full mb-16">
+                  
+                    <ng-container matColumnDef="typePermission">
+                      <th class="text-white" mat-header-cell *matHeaderCellDef > 
+                          Type Permission
+                      </th>
+                      <td mat-cell *matCellDef="let element">{{element.typePermission.libelle}}</td>
+                    </ng-container>
+          
+                    <ng-container matColumnDef="utilisateur">
+                      <th class="hidden sm:table-cell text-white" mat-header-cell *matHeaderCellDef> 
+                          Demandeur
+                      </th>
+                      <td class="hidden sm:table-cell" mat-cell *matCellDef="let element"> {{element.utilisateur.nom}}</td>
+                    </ng-container>
+          
+                    
+                    <ng-container matColumnDef="detail">
+                      <th class="hidden sm:table-cell text-white" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                          Detail
+                      </th>
+                      <td class="hidden sm:table-cell" mat-cell *matCellDef="let element">{{element.detail}}</td>
+                    </ng-container>
+          
+                   
+                    <ng-container matColumnDef="dateDebut">
+                      <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                          Date debut 
+                      </th>
+                      <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.date_debut | date:'dd/MM/yyyy'}}</td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="dateFin">
+                      <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                        Date fin
+                      </th>
+                      <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.date_fin | date:'dd/MM/yyyy'}} </td>
+                    </ng-container>
+  
+  
+                    <ng-container matColumnDef="statut">
+                      <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                          Statut 
+                      </th>
+                      <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.statutPermission[0].statut.libelle}}  </td>
+                    </ng-container>
+  
+  
+                    <ng-container matColumnDef="datecreation">
+                      <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                          Date creation
+                      </th>
+                      <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.dateCreation | date:'dd/MM/yyyy'}}   </td>
+                    </ng-container>
+              
+                    
+                  
+          
+                    <tr class="z-10 sticky top-0 gap-4 py-4 px-6 md:px-8 text-md font-semibold text-white bg-accent dark:bg-black dark:bg-opacity-5"
+                      mat-header-row *matHeaderRowDef="displayedValider"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedValider;"></tr>
+          
+                  </table>
+            </mat-tab>
+            
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    Rejetée
+                </ng-template>
+               
+                <table mat-table  [dataSource]="dataSourceRejete" matSort class="w-full mb-16">
+                  
+                    <ng-container matColumnDef="typePermission">
+                      <th class="text-white" mat-header-cell *matHeaderCellDef > 
+                          Type Permission
+                      </th>
+                      <td mat-cell *matCellDef="let element">{{element.typePermission.libelle}}</td>
+                    </ng-container>
+          
+                    <ng-container matColumnDef="utilisateur">
+                      <th class="hidden sm:table-cell text-white" mat-header-cell *matHeaderCellDef> 
+                          Demandeur
+                      </th>
+                      <td class="hidden sm:table-cell" mat-cell *matCellDef="let element"> {{element.utilisateur.nom}}</td>
+                    </ng-container>
+          
+                    
+                    <ng-container matColumnDef="detail">
+                      <th class="hidden sm:table-cell text-white" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                          Detail
+                      </th>
+                      <td class="hidden sm:table-cell" mat-cell *matCellDef="let element">{{element.detail}}</td>
+                    </ng-container>
+          
+                   
+                    <ng-container matColumnDef="dateDebut">
+                      <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                          Date debut 
+                      </th>
+                      <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.date_debut | date:'dd/MM/yyyy'}}</td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="dateFin">
+                      <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                        Date fin
+                      </th>
+                      <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.date_fin | date:'dd/MM/yyyy'}} </td>
+                    </ng-container>
+  
+  
+                    <ng-container matColumnDef="statut">
+                      <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                          Statut 
+                      </th>
+                      <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.statutPermission[0].statut.libelle}}  </td>
+                    </ng-container>
+
+                    
+                    <ng-container matColumnDef="motif">
+                      <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                          Motif 
+                      </th>
+                      <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.statutPermission[0].motif.libelle}}  </td>
+                    </ng-container>
+  
+  
+                    <ng-container matColumnDef="datecreation">
+                      <th class="text-white hidden md:table-cell" mat-header-cell *matHeaderCellDef mat-sort-header> 
+                          Date creation
+                      </th>
+                      <td class="hidden md:table-cell" mat-cell *matCellDef="let element">{{element.dateCreation | date:'dd/MM/yyyy'}}   </td>
+                    </ng-container>
+              
+                  
+          
+                    <tr class="z-10 sticky top-0 gap-4 py-4 px-6 md:px-8 text-md font-semibold text-white bg-accent dark:bg-black dark:bg-opacity-5"
+                      mat-header-row *matHeaderRowDef="dataSourceRejeter"></tr>
+                    <tr mat-row *matRowDef="let row; columns: dataSourceRejeter;"></tr>
+          
+                  </table>
+            </mat-tab>
+        </mat-tab-group> 
+
+        <div *ngIf="showPagination == 0">
+          <mat-paginator
+            class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+             #paginationAttente [pageSize]="page.pageSize"
+            [pageSizeOptions]="page.pageSizeOptions" showFirstLastButtons aria-label="Select page of periodic elements">
+          </mat-paginator>
+        </div>
+        <div *ngIf="showPagination == 1">
+          <mat-paginator
+            class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+            [ngClass]="{'pointer-events-none': isLoading}" #paginationValide [pageSize]="page.pageSize"
+            [pageSizeOptions]="page.pageSizeOptions" showFirstLastButtons aria-label="Select page of periodic elements">
+          </mat-paginator>
+        </div>
+        <div *ngIf="showPagination == 2">
+          <mat-paginator
+            class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+            [ngClass]="{'pointer-events-none': isLoading}" #paginationRejete [pageSize]="page.pageSize"
+            [pageSizeOptions]="page.pageSizeOptions" showFirstLastButtons aria-label="Select page of periodic elements">
+          </mat-paginator>
+        </div>
+
+      </div>
+    </div>
+
+</div>
